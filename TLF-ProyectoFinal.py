@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox, scrolledtext
 import re
-from PIL import Image, ImageTk
 import os
 import graphviz
 import tempfile
@@ -54,16 +53,6 @@ def validar_regex():
     except re.error as e:
         # Mostrar un mensaje de error si la expresión regular no es válida
         messagebox.showerror("Error", f"Expresión regular inválida:\n{e}")
-
-
-def cerrar_ventana_grafico():
-    """
-    Cierra la ventana de gráfico si está abierta.
-    """
-    global ventana_grafico
-    if ventana_grafico is not None and ventana_grafico.winfo_exists():
-        ventana_grafico.destroy()
-        ventana_grafico = None
 
 
 def graficar_afnd():
@@ -143,16 +132,22 @@ def mostrar_grafico(ruta):
     ventana_grafico = tk.Toplevel(root)
     ventana_grafico.title("AFND Generado")
 
-    # Cargar la imagen del gráfico
-    img = Image.open(ruta)
-    img.thumbnail((600, 400))  # Redimensionar la imagen para que se ajuste
-    img = ImageTk.PhotoImage(img)
+    # Usar tkinter.PhotoImage para cargar la imagen PNG
+    img = tk.PhotoImage(file=ruta)
 
     # Mostrar la imagen en un widget Label
     label_imagen = tk.Label(ventana_grafico, image=img)
     label_imagen.image = img  # Referencia para evitar recolección de basura
     label_imagen.pack()
 
+def cerrar_ventana_grafico():
+    """
+    Cierra la ventana de gráfico si está abierta.
+    """
+    global ventana_grafico
+    if ventana_grafico is not None and ventana_grafico.winfo_exists():
+        ventana_grafico.destroy()
+        ventana_grafico = None
 
 def limpiar_campos():
     """
