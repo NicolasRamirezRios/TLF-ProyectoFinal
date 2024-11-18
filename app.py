@@ -59,7 +59,6 @@ def graficar_afnd():
     """
     Genera un autómata finito no determinista (AFND) a partir de las cadenas válidas.
     Muestra el gráfico resultante en una nueva ventana.
-    Guarda el gráfico en una carpeta llamada 'AFND' en el mismo directorio donde está el código.
     """
     global ventana_grafico
 
@@ -112,24 +111,15 @@ def graficar_afnd():
     for estado_final in estados_finales:
         automata.node(estado_final, shape='doublecircle')
 
-    # Obtener el directorio actual donde se encuentra el código
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    
-    # Crear la carpeta 'AFND' si no existe
-    output_dir = os.path.join(current_dir, 'AFND')
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-
-    # Ruta completa para guardar la imagen
-    output_file = os.path.join(output_dir, 'afnd')
-
-    # Guardar el gráfico en un archivo en el directorio 'AFND'
+    # Guardar el gráfico en un archivo temporal
+    temp_dir = tempfile.mkdtemp()
+    output_file = os.path.join(temp_dir, 'afnd')
     automata.render(output_file, cleanup=True)
 
-    # Ruta del archivo PNG generado
     png_file = output_file + '.png'
     if os.path.exists(png_file):
-        mostrar_grafico(png_file)  # Función para mostrar el gráfico, si es necesario
+        mostrar_grafico(png_file)
+        shutil.rmtree(temp_dir)  # Limpiar el directorio temporal
     else:
         messagebox.showerror("Error", "No se pudo generar el archivo PNG.")
 

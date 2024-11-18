@@ -14,9 +14,7 @@ Este proyecto es una aplicación gráfica creada con Tkinter que permite validar
 2. Instala las dependencias necesarias:
     
     En la terminal ejecutar:
-    pip install graphviz
-    En caso dado de no reconocer tkinter
-    pip install tkinter
+    pip install -r requirements.txt
     
 3. Ejecuta el archivo `app.py` para iniciar la aplicación.
 
